@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * Display browsing menus 
  * @author Nami Kim
@@ -71,9 +74,9 @@ public class InitialBrowsing {
 		int genrePerLine = 3; // show 3 genre names per line 
 		int count = 0;
 					
-		for (String genreName : genreArr) {
+		for (int i = 0; i < genreArr.length; i++) {
 			
-			System.out.printf("%-20s", genreName);
+			System.out.printf("%d. %-20s", i + 1, genreArr[i]);
 			count++;
 			
 			if (count == genrePerLine) {
@@ -81,13 +84,37 @@ public class InitialBrowsing {
 				count = 0;
 			}
 		}
+		System.out.println();
+		System.out.println();
 	}
 	
 	/** 
-	 * print out browsing menu. 
+	 * Prompt to start movie search by name or genre code 
 	 */
-	public void displayBrowsingOptions() {
+	public void promptUserSearch() {
 		
+		Scanner in = new Scanner(System.in);
+		
+		boolean loop = true;
+		while (loop) {
+			System.out.print("Please type in name of movie or genre number\n[C to checkout | Q to quit] : ");
+			
+			if (in.nextLine().toUpperCase().equals("Q")) {
+				loop = false;
+				displayExit();
+			}
+			
+			if (in.nextLine().toUpperCase().equals("C")) {
+				loop = false;
+				// go to check out 
+			}
+		}
+		
+		
+	}
+	
+	public void displayExit() {
+		System.out.println("Thank you. Have a nice day");
 	}
 	
 	/**
@@ -102,6 +129,7 @@ public class InitialBrowsing {
 		displayPopularMovies();
 		displayNewMovies();
 		displayGenre();
+		promptUserSearch();
 	}
 	
 	public static void main(String[] args) {
