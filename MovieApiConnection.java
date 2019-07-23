@@ -9,7 +9,22 @@ public class MovieApiConnection {
     MovieApiConnection(String SearchURL){
         this.SearchURL = SearchURL;
     }
+    
+    /**
+     * 
+     */
+    boolean checkValidResponse(int responseCode) {
+    	if(responseCode == 200) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 
+    /** 
+     * function that establishes the get request given a specific URL
+    */
     public void requestGET(){
         try{
             URL url = new URL(SearchURL);
@@ -19,7 +34,7 @@ public class MovieApiConnection {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
 
-            if(connection.getResponseCode() != 200){
+            if(!checkValidResponse(connection.getResponseCode())){
                 throw new IOException();
             }
             // read the items from the connection
@@ -40,6 +55,7 @@ public class MovieApiConnection {
         catch (MalformedURLException mfe) {
             // case when new URL may have failed
             // message can be null, so print stack trace for good measures
+            
             mfe.getMessage();
             mfe.printStackTrace();
         }
@@ -55,6 +71,5 @@ public class MovieApiConnection {
         MovieApiConnection c = new MovieApiConnection(url);
         c.requestGET();
     }
-
 
 }

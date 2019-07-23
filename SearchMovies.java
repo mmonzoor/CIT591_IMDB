@@ -18,7 +18,10 @@ public class SearchMovies{
         this.title = title;
     }
 
-
+    /**
+     * method constructing the URL needed to fetch the data we need.
+     * @return
+     */
     public String constructSearch(){
         StringBuilder url = new StringBuilder("http://www.omdbapi.com/?apikey=9d1bb888&type=movie");
         try {
