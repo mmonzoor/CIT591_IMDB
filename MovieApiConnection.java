@@ -11,13 +11,14 @@ public class MovieApiConnection {
     }
     
     /**
-     * 
+     * checks the response code from the get request to ensure it was correct.
      */
     boolean checkValidResponse(int responseCode) {
     	if(responseCode == 200) {
     		return true;
     	}
     	else {
+            System.out.println("Incorrect response code received.");
     		return false;
     	}
     }
@@ -25,7 +26,9 @@ public class MovieApiConnection {
     /** 
      * function that establishes the get request given a specific URL
     */
-    public void requestGET(){
+    public String requestGET(){
+        // read the inputs
+        StringBuilder responseStrBuilder = new StringBuilder();
         try{
             URL url = new URL(SearchURL);
             // call open connection to input stram
@@ -39,16 +42,12 @@ public class MovieApiConnection {
             }
             // read the items from the connection
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            
-            // read the inputs
-            StringBuilder responseStrBuilder = new StringBuilder();
 
             String inputStr;
             while ((inputStr = in.readLine()) != null)
                 responseStrBuilder.append(inputStr);
             //new JSONObject(responseStrBuilder.toString());
 
-            System.out.println(responseStrBuilder.toString());
             //System.out.println(new JSONObject(responseStrBuilder.toString()));
             
         }
@@ -63,7 +62,8 @@ public class MovieApiConnection {
             // case when open connection failed
             ie.printStackTrace();
         }
-
+        
+        return responseStrBuilder.toString();
     }
 
     public static void main(String[] args) {
