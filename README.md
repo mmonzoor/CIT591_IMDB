@@ -16,8 +16,18 @@ The user needs to be able to pick up movies as they are browsing and this would 
 
 Since this is a movie rental store and not a movie purchasing store, the checkout receipt needs to provide the user with a deadline to return the films. It is also important to have some estimation on the fines that can incur daily if the items are not returned on time. The payment aspect of the checkout process will be a message confirmation which will be followed by giving the customer their receipt. As the customer is exiting the store, there will be a thank you message and a graceful closing of the application. 
 
+![Initial Design Flow](InitialDesignFlow.png)
+
 ### Features
 
 Carrying out the design described above requres implementation of modular features so we can always be aware of coupling and cohesion. 
 
-TODO: List out classes added and their corresponding features. 
+1. MovieApiConnection - establishes get request for the movie searched
+2. SearchMovies - ability to search movie
+3. DataParser - parses json into arrayList for consumption by InitialBrowsing
+4. InitialBrowsing - User interaction class
+5. AddToCart - class used to add items to users cart
+6. RemoveFromCart - option to remove items from cart
+7. Checkout - checkout the items in cart
+
+

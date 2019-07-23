@@ -82,7 +82,7 @@ public class DataParser {
     }
 
     public static void main(String[] args) {
-        String url = new String("http://www.omdbapi.com/?apikey=9d1bb888&type=movie&t=batman&y=1991");
+        String url = new String("http://www.omdbapi.com/?apikey=9d1bb888&type=movie&t=batman");
         MovieApiConnection c = new MovieApiConnection(url);
         String cs = c.requestGET();
 
