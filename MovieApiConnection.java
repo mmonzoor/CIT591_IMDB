@@ -65,11 +65,4 @@ public class MovieApiConnection {
         
         return responseStrBuilder.toString();
     }
-
-    public static void main(String[] args) {
-        String url = new String("http://www.omdbapi.com/?apikey=9d1bb888&type=movie&t=batman&y=1991");
-        MovieApiConnection c = new MovieApiConnection(url);
-        c.requestGET();
-    }
-
 }

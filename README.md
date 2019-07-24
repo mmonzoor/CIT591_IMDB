@@ -30,4 +30,12 @@ Carrying out the design described above requres implementation of modular featur
 6. RemoveFromCart - option to remove items from cart
 7. Checkout - checkout the items in cart
 
+## Usage
+
+### Tahin's part:
+
+To simply search for a movie, compile ```DataParser.java``` and run the file. It should prompt you for a movie title, and then give you the option to input a year. Based on a valid search, you will get a .csv file as an output. 
+
+These prompts are temporary and will become one with Nami's user interaction function once we integrate our code together later this week. 
+
 

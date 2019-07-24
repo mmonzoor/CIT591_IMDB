@@ -23,17 +23,23 @@ public class SearchMovies{
      * @return
      */
     public String constructSearch(){
-        StringBuilder url = new StringBuilder("http://www.omdbapi.com/?apikey=9d1bb888&type=movie");
+        StringBuilder url = new StringBuilder("http://www.omdbapi.com/?apikey=9d1bb888&t=movie");
+        String yearToString = new String();
         try {
             String enTitle = URLEncoder.encode(title, "utf-8");
             // add encoded title
-            url.append("&t=");
+            url.append("&s=");
             url.append(enTitle);
 
             if(year > 1901 && year < 2020){
-                String yearToString = Integer.toString(year);
+                yearToString = Integer.toString(year);
                 url.append("&y=");
                 url.append(yearToString);
+            }
+            else{
+                System.out.println("Searching with \"Year\" parameter blank due to incorrect year range."
+                + "Next time enter between 1901 and 2019 (inclusive) for specific date search.");
+                yearToString = "";
             }
             
         } catch (UnsupportedEncodingException uee) {
@@ -42,14 +48,9 @@ public class SearchMovies{
         
         return url.toString();   
     }
-    
-    public static void main(String[] args) {
-        int year = 2012;
-        String title = "The Dark Knight Rises";
 
-        SearchMovies sm = new SearchMovies(title);
-        sm.year = year;
-        System.out.println(sm.constructSearch());
+    public void setYear(int year) {
+        this.year = year;
     }
 
 }
