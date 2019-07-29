@@ -74,6 +74,9 @@ public class DataParser {
         headerValues.add("Title");
         headerValues.add("Year");
         headerValues.add("imdbID");
+        // fake/ randomly generated data
+        headerValues.add("Price");
+
         lm.put(0, headerValues);
 
         // process the innnerclob of nested json containing the actual search results
@@ -89,13 +92,16 @@ public class DataParser {
             for (int j = 1; j < splitRawResponse.length; j++) {
 
                 ArrayList<String> splitData = splitData(splitRawResponse[j]);
+                // create a random price
+                double price = 2.50 + Math.random()*(13.50);
+                splitData.add(String.format("%.2f", price));
                 lm.put(j, splitData);
             }
         } else {
 
             System.out.println("The search is invalid, no proper results were found.");
         }
-        System.out.println(lm.toString());
+
         return lm;
     }
 
@@ -126,8 +132,6 @@ public class DataParser {
 
         // set year if needed
         String url = keyWord.constructSearch();
-
-        System.out.println("url"+ url);
         MovieApiConnection c = new MovieApiConnection(url);
         String cs = c.requestGET();
 
