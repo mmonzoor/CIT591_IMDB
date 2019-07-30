@@ -71,7 +71,7 @@ public class InitialBrowsing {
         // set year if needed
         String url = keyWord.constructSearch();
 
-        System.out.println("url"+ url);
+        //System.out.println("url"+ url);
         MovieApiConnection c = new MovieApiConnection(url); 
         String cs = c.requestGET();
 
