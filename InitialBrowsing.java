@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * This is the front-end where the user  makes searches. 
+ * This is the front-end where the user  makes searches, view cart. 
  * @author Nami Kim
  */
 public class InitialBrowsing {
 	private String fileName = "";
+<<<<<<< HEAD
+	private ArrayList<String[]> searchResult = new ArrayList<>();
+	private Cart userCart = new Cart();
+	private Display display = new Display();
+=======
 	private ArrayList<String[]> searchResult;
 	private Cart userCart;
 	
@@ -91,6 +96,7 @@ public class InitialBrowsing {
         
         return true;
 	}
+>>>>>>> 5cf6a03154c4844a01ac6a8351f7304d5b6225b1
 	
 	public void parseSearchResult() {
 		
@@ -100,14 +106,26 @@ public class InitialBrowsing {
 			Scanner in = new Scanner(f);
 			while (in.hasNextLine()) {
 				String[] line = in.nextLine().split(",");
-				searchResult.add(line);
+				String[] lineWithOutQuotationMark = new String[5];
+
+				// remove double quotation mark 
+				// + take only first 45 letters of movie title 
+				if (line[1].length() > 45) {
+					lineWithOutQuotationMark[1] = line[1].substring(1, line[1].length() - 1).substring(0, 45);
+				} else {
+					lineWithOutQuotationMark[1] = line[1].substring(1, line[1].length() - 1);
+				}
+				for (int i = 2; i < line.length; i++) {
+					lineWithOutQuotationMark[i] = line[i].substring(1, line[i].length() - 1);
+				}
+				lineWithOutQuotationMark[0] = line[0];
+				searchResult.add(lineWithOutQuotationMark);
+				
 			}
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		
 	}
 	
 	public void addToCart() {
@@ -118,12 +136,16 @@ public class InitialBrowsing {
 		boolean loop = true;
 
 		while(loop) {
-			System.out.println("Enter number of the movie you want to add to cart [q to go back to search]");
+			System.out.print("Enter number of the movie you want to add to cart, c to view your cart, r to return to prior menu:search >>> ");
 
 			String input = in.nextLine();
 
-			if (input.toLowerCase().equals("q")) {
+			if (input.toLowerCase().equals("r")) {
 				return;
+			}
+			else if (input.toLowerCase().equals("c")) {
+				loop = false;
+				viewCart();
 			}
 			else {
 				try {
@@ -141,7 +163,7 @@ public class InitialBrowsing {
 						else {
 							String title = userChoiceMovie[1];// title of movie to be added to cart 
 							userCart.addToCart(userChoiceMovie);
-							System.out.println("Movie number " + addToCartNumber + ", " + title + " added to cart,");
+							System.out.println("Movie number " + addToCartNumber + ", " + title + " added to cart.");
 						}
 					}
 				} catch(NumberFormatException e) {
@@ -149,34 +171,143 @@ public class InitialBrowsing {
 				}
 			}
 		}
+	}
+	
+	
+	public Character inputHandling() {
 		
+		Character returnChar = Character.MIN_VALUE;
+		boolean loop = true; 
+
+		while (loop) {
+			System.out.print("Enter s to search for a movie, c to view cart, q to quit >>> ");
+			Scanner in = new Scanner(System.in);
+
+			String userInput = in.nextLine().toLowerCase();
+			if (userInput.equals("s") || userInput.equals("c") || userInput.equals("q")) {
+				returnChar = userInput.charAt(0);
+				loop = false; 
+			}
+			else {
+				System.out.println("Invalid input");
+			}
+		}
+		
+		return returnChar;
 	}
 	
 	public void run() {
+		display.welcomeUser();
+		boolean loop = true;		
+		while (loop) {
+			Character userInput = inputHandling();
+			
+			switch (userInput) {
+			case 's':
+				userSearch();
+				break;
+			case 'c':
+				viewCart();
+				break;
+			case 'q':
+				loop = false;
+				break;
+			}
+		}
+		display.exit();
+	}
+	
+	public void viewCart() {
 		
-		Display display = new Display();
+		boolean loop = true;
+		while(loop) {
+			userCart.displayCart();
+			System.out.print("Enter c to checkout, number of title to remove item from cart, r to return to prior menu >>> ");
+			Scanner in = new Scanner(System.in);
+			String userInput = in.nextLine();
+			
+			try {
+				int removeFromCartNumber = Integer.parseInt(userInput);
+				
+				if (removeFromCartNumber < 1 || removeFromCartNumber > userCart.getCartSize()) {
+					System.out.println("Invalid input");
+				} 
+				else {
+					userCart.removeFromCart(removeFromCartNumber);
+				}
+			} catch(NumberFormatException e) {
+				
+				if (userInput.toLowerCase().equals("c")) {
+					loop = false;
+					System.out.println("checkout call");
+				}
+				else if (userInput.toLowerCase().equals("r")) {
+					return;
+				}
+				else {
+					System.out.println("Invalid input");
+				}
+			}
+			
+		}
 		
-		display.storeFront(); 
+	}
+	
+	public void userSearch() {
 		
 		boolean loop = true;
 		
-		while (loop) {
-			
-			loop = userSearchOld();
-			
-			if (!fileName.isEmpty()) {
-				parseSearchResult();
-				display.searchResult(searchResult);
-				addToCart();
-			}
+		while(loop) {
+		searchResult.clear();
+		System.out.print("Enter title of the movie to be searched (r to return to prior menu:main) >>> ");
+		Scanner in = new Scanner(System.in);
+		SearchMovies keyWord;
+		
+		String userInput = in.nextLine();
+		if (userInput.toLowerCase().equals("r")) {
+			return;
+		} else {
+			// Search URL construction
+	        keyWord = new SearchMovies(userInput);
+	        fileName = userInput.replaceAll(" ", "")+".csv";
 		}
-		userCart.displayCart();
-		display.exit();
+		
+		System.out.print("Enter year of release or press enter to search without a year (r to return to prior menu:main) >>> ");
+		userInput = in.nextLine();
+		if (userInput.toLowerCase().equals("r")) {
+			return;
+		} else {
+			
+        	try{
+        		keyWord.setYear(Integer.parseInt(userInput));
+        	} catch(NumberFormatException e) {
+        		//System.out.println("No year value recognized. Continuing search with title only.");
+        	}
+		}
+		
+		// set year if needed
+        String url = keyWord.constructSearch();
+        MovieApiConnection c = new MovieApiConnection(url); 
+        String cs = c.requestGET();
+        DataParser dpc = new DataParser(cs);
+        
+        
+        if(dpc.processClob().size() <= 1){
+        	display.noSearchResult();
+        } else { //when (dpc.processClob().size() > 1)
+            // if we got something back, then print to csv
+            FileHandler.MovieSearchedWriter(fileName, dpc.processClob());
+            parseSearchResult();
+        	display.searchResult(searchResult);
+			addToCart();
+        }
+        
+		}
 	}
 	
 	public static void main(String[] args) {
 		InitialBrowsing test = new InitialBrowsing();
-		test.run();
 
+		test.run();
 	}
 }

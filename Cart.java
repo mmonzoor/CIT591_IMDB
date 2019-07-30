@@ -8,11 +8,20 @@ public class Cart {
 	
 	private ArrayList<String[]> cart = new ArrayList<>();
 	
+	public int getCartSize() {
+		return cart.size();
+	}
+	
 	public void addToCart(String[] userChoiceMovie) {
 		cart.add(userChoiceMovie);
 	}
 	
+	public void removeFromCart(int removeFromCartNumber) {
+		cart.remove(removeFromCartNumber - 1);
+	}
+	
 	public void displayCart() {
+		
 		Display display = new Display();
 		display.cart(cart);
 	}

@@ -15,8 +15,7 @@ public class Display {
 	 */
 	public void welcomeUser() {
 		System.out.printf("%50s", "Welcome to " + storeTitle + "\n");
-		System.out.printf("%47s", "Enter q to exit at anytime" + "\n");
-		
+		 horizontalBar();
 	}
 		
 	/**
@@ -49,20 +48,44 @@ public class Display {
 	 * @param filename
 	 */
 	public void searchResult(ArrayList<String[]> searchResult) {
-		 
-		System.out.printf("%3s %-45s %-15s %-10s\n", "No.", "Title", "Year", "Price");
+		horizontalBar(); 
+		System.out.printf("%3s %-45s %-10s %-10s\n", "No.", "Title", "Year", "Price");
 		
 		for (int i = 1; i < searchResult.size(); i++) {
-			System.out.printf("%-3s %-45s %-15s %-10s\n", i, searchResult.get(i)[1], searchResult.get(i)[2], searchResult.get(i)[4]);			
+			System.out.printf("%-3s %-45s %-10s %-10s\n", i, searchResult.get(i)[1], searchResult.get(i)[2], searchResult.get(i)[4]);			
 		}
+		horizontalBar();
 	}
 	
 	public void cart(ArrayList<String[]> cart) {
 		 
-		System.out.printf("%3s %-45s %-15s %-10s\n", "No.", "Title", "Year", "Price");
-		
-		for (int i = 0; i < cart.size(); i++) {
-			System.out.printf("%-3s %-45s %-15s %-10s\n", i, cart.get(i)[1], cart.get(i)[2], cart.get(i)[4]);			
+		horizontalBar();
+		if (cart.isEmpty()) {
+			System.out.printf("%45s", "Your cart is empty\n");
+		} else {
+			System.out.printf("%3s %-45s %-10s %-10s\n", "No.", "Title", "Year", "Price");
+			
+			for (int i = 0; i < cart.size(); i++) {
+				System.out.printf("%-3s %-45s %-10s %-10s\n", i + 1, cart.get(i)[1], cart.get(i)[2], cart.get(i)[4]);			
+			}
 		}
+		horizontalBar();
+	}
+	
+	public void noSearchResult() {
+		horizontalBar();
+		System.out.printf("%45s", "No search result found\n");
+		horizontalBar();
+	}
+	
+	public static void main(String[] args) {
+		
+		String[] test = {"0","123456789012345678901234567890123456789012345","1234567890","-","-"};
+		
+		ArrayList<String[]> arr = new ArrayList<>();
+		arr.add(test);
+		
+		Display dp = new Display();
+		dp.cart(arr);
 	}
 }
