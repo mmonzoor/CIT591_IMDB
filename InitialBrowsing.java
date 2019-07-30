@@ -9,94 +9,9 @@ import java.util.Scanner;
  */
 public class InitialBrowsing {
 	private String fileName = "";
-<<<<<<< HEAD
 	private ArrayList<String[]> searchResult = new ArrayList<>();
 	private Cart userCart = new Cart();
 	private Display display = new Display();
-=======
-	private ArrayList<String[]> searchResult;
-	private Cart userCart;
-	
-	public InitialBrowsing() {
-		this.fileName ="";
-		this.searchResult = new ArrayList<>();
-		this.userCart = new Cart();
-	}
-	
-	/** 
-	 * Ask user for search keyword, year, pass on to API, retrieve results in a CSV file. 
-	 * returns whether the prompt should loop 
-	 */
-	public boolean userSearchOld() {
-		searchResult.clear();
-		fileName = "";
-		
-		System.out.println("please enter the title of the movie to be searched.");
-        Scanner in = new Scanner(System.in);
-        
-        String searcKeyword = in.nextLine();
-        
-        if (searcKeyword.toLowerCase().equals("q")) {
-        	//in.close();
-        	return false;
-        } 
-        
-        // Search URL construction
-
-        SearchMovies keyWord = new SearchMovies(searcKeyword);
-		
-        // prompt for year 
-        // is there a reason for using another scanner?
-        System.out.println("would you like to input a year to search with as well?(y/n)");
-        
-        String choice = in.nextLine().toLowerCase();
-        
-        if(choice.toLowerCase().equals("q")) {
-        	in.close();
-        	return false;
-        } else if(choice.equals("y") || choice.equals("yes")){
-            
-        	//Scanner yearInput = new Scanner(System.in);
-            System.out.println("What year would you like to search by? ");
-            String year = in.nextLine();
-            
-            if (year.toLowerCase().equals("q")) {
-            	//in.close();
-            	return false;
-            }
-            else {
-            	try{
-            		keyWord.setYear(Integer.parseInt(year));
-            	} catch(NumberFormatException e) {
-            		System.out.println("No year value recognized. Continuing search with title only.");
-            	}
-            }
-        }
-
-        // set year if needed
-        String url = keyWord.constructSearch();
-
-        //System.out.println("url"+ url);
-        MovieApiConnection c = new MovieApiConnection(url); 
-        String cs = c.requestGET();
-
-        DataParser dpc = new DataParser(cs);
-
-        fileName = searcKeyword.replaceAll(" ", "")+".csv";
-        
-        if(dpc.processClob().size() <= 1){
-        	fileName = "";
-        	return true;
-        } else { //(dpc.processClob().size() > 1)
-            // if we got something back, then print to csv
-            FileHandler.MovieSearchedWriter(fileName, dpc.processClob());
-        }
-        //in.close();
-
-        
-        return true;
-	}
->>>>>>> 5cf6a03154c4844a01ac6a8351f7304d5b6225b1
 	
 	public void parseSearchResult() {
 		
@@ -307,7 +222,8 @@ public class InitialBrowsing {
 	
 	public static void main(String[] args) {
 		InitialBrowsing test = new InitialBrowsing();
-
 		test.run();
+		
+		
 	}
 }
