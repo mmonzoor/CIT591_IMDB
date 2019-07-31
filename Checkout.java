@@ -2,70 +2,121 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * An interactive interface to checkout movies and calculate bills.
- * Provide the user with several choices to abandon the checkout
- * process or continue to browse if he or she changes the decision
- * again.
+ * An interactive interface to checkout movies and calculate bills. Provide the
+ * user with several choices to abandon the checkout process or continue to
+ * browse if he or she changes decisions along the way.
  * 
  */
-public class Checkout{
-	
-	ArrayList<String> cart;
+public class Checkout {
+
+	ArrayList<String[]> cart;
 	String customerName;
 	double bill;
 	String creditCard;
-	
+
 	/**
-	 * Constructor for a Checkout object
+	 * Constructor for a Checkout object; initialize variables
+	 * 
 	 * @param shoppingCart
 	 */
-	Checkout (ArrayList<String> shoppingCart) {
+	Checkout(ArrayList<String[]> shoppingCart) {
 		cart = shoppingCart;
+		customerName = "";
+		bill = 0.0;
+		creditCard = "";
 	}
 
 	/**
-	 * Ask for user decision to checkout, abandon cart, or continues browsing
-	 * based on interactive user choices
+	 * Ask for user decision to checkout, abandon cart, or continue browsing based
+	 * on interactive user choices
 	 */
-	public void checkoutProcess() {
+	public void runCheckoutProcess() {
 		Scanner userInput = new Scanner(System.in);
-		System.out.println("Welcome to checkout! Are you ready to proceed?");
-		
-		
+		String userDecision = "";
+		System.out.println("Welcome to checkout! Are you ready to proceed to checkout?");
+		userDecision = customerDecision();
+		if (userDecision.equals("Yes")) {
+			System.out.println("Please tell us your name:");
+			customerName = userInput.nextLine();
+			double currentBill = calculateBill();
+			System.out.println(customerName + ", your total bill amount is " + currentBill);
+			System.out.println("Please enter your credit card number:");
+			creditCard = userInput.nextLine();
+			clearCart();
+			System.out.println("Your order is complete. You have been charged " + currentBill + ".");
+			System.out.println("Thank you, " + customerName + "! Please visit us again in the future.");
+		} else {
+			System.out.println("Would you like to keep browsing?");
+			userDecision = customerDecision();
+			if (userDecision.equals("Yes")) {
+				// send back to browsing function
+			} else {
+				clearCart();
+				System.out.println(
+						"Your cart is clear. You are about to leave the store. Are you sure you want to leave?");
+				userDecision = customerDecision();
+				if (userDecision.equals("Yes")) {
+					System.out.println("Thank you for visiting us. We hope to see you again. Goodbye.");
+				} else {
+					System.out.println("You can continue to browse for movies. Enjoy!");
+					// send back to browsing function
+				}
+			}
+		}
 		userInput.close();
 	}
-	
+
 	/**
 	 * Calculate bill for the movie rental shopping cart
+	 * 
 	 * @return
 	 */
 	public double calculateBill() {
-		// calculate bill amount
+		for (String[] strings : cart) {
+			try {
+				bill += Double.parseDouble(strings[4]); // price is the 5th element in a Movie object as an array
+			} catch (NumberFormatException nfe) {
+				System.out.println("Price not available for " + strings[1]);
+			}
+		}
 		return bill;
 	}
-	
+
 	/**
-	 * Clear shopping cart and offer the user one more option 
-	 * to restart browsing	
+	 * Clear shopping cart
 	 */
 	public void clearCart() {
-		// set cart values to initial state
+		cart.removeAll(cart);
 	}
-		
+
 	/**
-	 * Ask for user decision and perform error checking for invalid inputs
-	 * @param userChoice
+	 * Ask for user decision, "Yes" or "No", and perform error checking for invalid
+	 * inputs
+	 * 
 	 * @return
 	 */
-	public boolean customerDecision(String userChoice) {
-		Scanner userChoiceScan = new Scanner(System.in);
-		// ask for user decision and check for valid user input
-		if (userChoice.equals("Yes")) {
-			return true;
-		} else {
-			return false;
+	public String customerDecision() {
+		String decision = "";
+		Scanner userDecisionScan = new Scanner(System.in);
+		String userChoice = "";
+		boolean errorIndicator = true;
+
+		while (errorIndicator) {
+			System.out.println("Please enter yes or no for your choice.");
+			userChoice = userDecisionScan.nextLine();
+			if (userChoice.toLowerCase().equals("yes")) {
+				decision = "Yes";
+				errorIndicator = false;
+			} else if (userChoice.toLowerCase().equals("no")) {
+				decision = "No";
+				errorIndicator = false;
+			} else {
+				System.out.println("Invalid choice.");
+			}
 		}
-		
+
+		userDecisionScan.close();
+		return decision;
 	}
 
 }
