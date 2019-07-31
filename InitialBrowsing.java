@@ -8,15 +8,77 @@ import java.util.Scanner;
  * @author Nami Kim
  */
 public class InitialBrowsing {
+
 	private String fileName = "";
 	private ArrayList<String[]> searchResult = new ArrayList<>();
 	private Cart userCart = new Cart();
 	private Display display = new Display();
-	
+
+	/**
+	 * Prompt user to enter name/year of movie and perform a search.
+	 * Calls ParseSearchResult to process the search result, calls display function to 
+	 * display the search result and calls addToCart method to ask user whether to add an item to cart.
+	 */
+	public void userSearch() {
+
+		boolean loop = true;
+
+		while(loop) {
+			searchResult.clear();
+			System.out.print("Enter title of the movie to be searched (r to return to prior menu:main) >>> ");
+			Scanner in = new Scanner(System.in);
+			SearchMovies keyWord;
+
+			String userInput = in.nextLine();
+			if (userInput.toLowerCase().equals("r")) {
+				return;
+			} else {
+				// Search URL construction
+				keyWord = new SearchMovies(userInput);
+				fileName = userInput.replaceAll(" ", "")+".csv";
+			}
+
+			System.out.print("Enter year of release or press enter to search without a year (r to return to prior menu:main) >>> ");
+			userInput = in.nextLine();
+			if (userInput.toLowerCase().equals("r")) {
+				return;
+			} else {
+
+				try{
+					keyWord.setYear(Integer.parseInt(userInput));
+				} catch(NumberFormatException e) {
+					//System.out.println("No year value recognized. Continuing search with title only.");
+				}
+			}
+
+			// set year if needed
+			String url = keyWord.constructSearch();
+			MovieApiConnection c = new MovieApiConnection(url); 
+			String cs = c.requestGET();
+			DataParser dpc = new DataParser(cs);
+
+
+			if(dpc.processClob().size() <= 1){
+				display.noSearchResult();
+			} else { //when (dpc.processClob().size() > 1)
+				// if we got something back, then print to csv
+				FileHandler.MovieSearchedWriter(fileName, dpc.processClob());
+				parseSearchResult();
+				display.searchResult(searchResult);
+				addToCart();
+			}
+
+		}
+	}
+
+	/**
+	 * Parse the search result retrieved in a CSV file,
+	 * store the result in instance variable searchResult.
+	 */
 	public void parseSearchResult() {
-		
+
 		File f = new File(fileName);
-		
+
 		try {
 			Scanner in = new Scanner(f);
 			while (in.hasNextLine()) {
@@ -35,14 +97,17 @@ public class InitialBrowsing {
 				}
 				lineWithOutQuotationMark[0] = line[0];
 				searchResult.add(lineWithOutQuotationMark);
-				
+
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
-	
+
+	/** 
+	 * Ask user if want to add an item to cart, process the request. 
+	 */
 	public void addToCart() {
 		int addToCartNumber;
 
@@ -65,13 +130,13 @@ public class InitialBrowsing {
 			else {
 				try {
 					addToCartNumber = Integer.parseInt(input);
-					
+
 					if (addToCartNumber < 1 || addToCartNumber > searchResult.size()) {
 						System.out.println("Invalid input");
 					} 
 					else {
 						String[] userChoiceMovie = searchResult.get(addToCartNumber);
-						
+
 						if (userCart.isAlreadyInCart(userChoiceMovie)) {
 							System.out.println("Item already in cart");
 						}
@@ -87,10 +152,54 @@ public class InitialBrowsing {
 			}
 		}
 	}
-	
-	
+
+	/**
+	 * Show cart by calling display function in cart class.
+	 * User can also remove an item from the cart, this method processes the request. 
+	 */
+	public void viewCart() {
+
+		boolean loop = true;
+		while(loop) {
+			userCart.displayCart();
+			System.out.print("Enter c to checkout, number of title to remove item from cart, r to return to prior menu >>> ");
+			Scanner in = new Scanner(System.in);
+			String userInput = in.nextLine();
+
+			try {
+				int removeFromCartNumber = Integer.parseInt(userInput);
+
+				if (removeFromCartNumber < 1 || removeFromCartNumber > userCart.getCartSize()) {
+					System.out.println("Invalid input");
+				} 
+				else {
+					userCart.removeFromCart(removeFromCartNumber);
+				}
+			} catch(NumberFormatException e) {
+
+				if (userInput.toLowerCase().equals("c")) {
+					loop = false;
+					//Checkout checkout = new Checkout(userCart);
+				}
+				else if (userInput.toLowerCase().equals("r")) {
+					return;
+				}
+				else {
+					System.out.println("Invalid input");
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * Present main menu to the user, if user's input is valid, 
+	 * return the character representation of user's choice of action. 
+	 * @return
+	 */
 	public Character inputHandling() {
-		
+
 		Character returnChar = Character.MIN_VALUE;
 		boolean loop = true; 
 
@@ -107,16 +216,19 @@ public class InitialBrowsing {
 				System.out.println("Invalid input");
 			}
 		}
-		
+
 		return returnChar;
 	}
-	
+
+	/**
+	 * Run initial browsing class via a loop that repeats prompt and input handling.
+	 */
 	public void run() {
 		display.welcomeUser();
 		boolean loop = true;		
 		while (loop) {
 			Character userInput = inputHandling();
-			
+
 			switch (userInput) {
 			case 's':
 				userSearch();
@@ -131,99 +243,9 @@ public class InitialBrowsing {
 		}
 		display.exit();
 	}
-	
-	public void viewCart() {
-		
-		boolean loop = true;
-		while(loop) {
-			userCart.displayCart();
-			System.out.print("Enter c to checkout, number of title to remove item from cart, r to return to prior menu >>> ");
-			Scanner in = new Scanner(System.in);
-			String userInput = in.nextLine();
-			
-			try {
-				int removeFromCartNumber = Integer.parseInt(userInput);
-				
-				if (removeFromCartNumber < 1 || removeFromCartNumber > userCart.getCartSize()) {
-					System.out.println("Invalid input");
-				} 
-				else {
-					userCart.removeFromCart(removeFromCartNumber);
-				}
-			} catch(NumberFormatException e) {
-				
-				if (userInput.toLowerCase().equals("c")) {
-					loop = false;
-					System.out.println("checkout call");
-				}
-				else if (userInput.toLowerCase().equals("r")) {
-					return;
-				}
-				else {
-					System.out.println("Invalid input");
-				}
-			}
-			
-		}
-		
-	}
-	
-	public void userSearch() {
-		
-		boolean loop = true;
-		
-		while(loop) {
-		searchResult.clear();
-		System.out.print("Enter title of the movie to be searched (r to return to prior menu:main) >>> ");
-		Scanner in = new Scanner(System.in);
-		SearchMovies keyWord;
-		
-		String userInput = in.nextLine();
-		if (userInput.toLowerCase().equals("r")) {
-			return;
-		} else {
-			// Search URL construction
-	        keyWord = new SearchMovies(userInput);
-	        fileName = userInput.replaceAll(" ", "")+".csv";
-		}
-		
-		System.out.print("Enter year of release or press enter to search without a year (r to return to prior menu:main) >>> ");
-		userInput = in.nextLine();
-		if (userInput.toLowerCase().equals("r")) {
-			return;
-		} else {
-			
-        	try{
-        		keyWord.setYear(Integer.parseInt(userInput));
-        	} catch(NumberFormatException e) {
-        		//System.out.println("No year value recognized. Continuing search with title only.");
-        	}
-		}
-		
-		// set year if needed
-        String url = keyWord.constructSearch();
-        MovieApiConnection c = new MovieApiConnection(url); 
-        String cs = c.requestGET();
-        DataParser dpc = new DataParser(cs);
-        
-        
-        if(dpc.processClob().size() <= 1){
-        	display.noSearchResult();
-        } else { //when (dpc.processClob().size() > 1)
-            // if we got something back, then print to csv
-            FileHandler.MovieSearchedWriter(fileName, dpc.processClob());
-            parseSearchResult();
-        	display.searchResult(searchResult);
-			addToCart();
-        }
-        
-		}
-	}
-	
+
 	public static void main(String[] args) {
 		InitialBrowsing test = new InitialBrowsing();
 		test.run();
-		
-		
 	}
 }

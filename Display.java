@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * This class contains screen displays  
+ * This class contains screen displays.
  * @author Nami Kim
  */
 public class Display {
@@ -45,7 +45,7 @@ public class Display {
 	
 	/**
 	 * Display search results in the CSV file. 
-	 * @param filename
+	 * @param filename name of the CSV file
 	 */
 	public void searchResult(ArrayList<String[]> searchResult) {
 		horizontalBar(); 
@@ -57,6 +57,10 @@ public class Display {
 		horizontalBar();
 	}
 	
+	/**
+	 * Display items in cart
+	 * @param cart 
+	 */
 	public void cart(ArrayList<String[]> cart) {
 		 
 		horizontalBar();
@@ -72,20 +76,13 @@ public class Display {
 		horizontalBar();
 	}
 	
+	/**
+	 * Message to be displayed shen search returns no result 
+	 */
 	public void noSearchResult() {
 		horizontalBar();
 		System.out.printf("%45s", "No search result found\n");
 		horizontalBar();
 	}
-	
-	public static void main(String[] args) {
-		
-		String[] test = {"0","123456789012345678901234567890123456789012345","1234567890","-","-"};
-		
-		ArrayList<String[]> arr = new ArrayList<>();
-		arr.add(test);
-		
-		Display dp = new Display();
-		dp.cart(arr);
-	}
+
 }
