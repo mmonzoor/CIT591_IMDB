@@ -37,8 +37,6 @@ public class SearchMovies{
                 url.append(yearToString);
             }
             else{
-                System.out.println("Searching with \"Year\" parameter blank due to incorrect year range."
-                + "Next time enter between 1901 and 2019 (inclusive) for specific date search.");
                 yearToString = "";
             }
             
