@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -9,7 +8,6 @@ import java.util.Scanner;
  */
 public class Checkout {
 
-	ArrayList<String[]> cart;
 	String customerName;
 	double bill;
 	String creditCard;
@@ -17,10 +15,8 @@ public class Checkout {
 	/**
 	 * Constructor for a Checkout object; initialize variables
 	 * 
-	 * @param shoppingCart
 	 */
-	Checkout(ArrayList<String[]> shoppingCart) {
-		cart = shoppingCart;
+	Checkout() {
 		customerName = "";
 		bill = 0.0;
 		creditCard = "";
@@ -30,7 +26,8 @@ public class Checkout {
 	 * Ask for user decision to checkout, abandon cart, or continue browsing based
 	 * on interactive user choices
 	 */
-	public void runCheckoutProcess() {
+	public Cart runCheckoutProcess(Cart shoppingCart) {
+		Cart cart = shoppingCart;
 		Scanner userInput = new Scanner(System.in);
 		String userDecision = "";
 		System.out.println("Welcome to checkout! Are you ready to proceed to checkout?");
@@ -38,20 +35,20 @@ public class Checkout {
 		if (userDecision.equals("Yes")) {
 			System.out.println("Please tell us your name:");
 			customerName = userInput.nextLine();
-			double currentBill = calculateBill();
+			double currentBill = calculateBill(cart);
 			System.out.println(customerName + ", your total bill amount is " + currentBill);
-			System.out.println("Please enter your credit card number:");
-			creditCard = userInput.nextLine();
-			clearCart();
-			System.out.println("Your order is complete. You have been charged " + currentBill + ".");
+			creditCard = getCreditCard();
+			cart.clearCart();
+			System.out.println(
+					"Your order is complete. You have been charged " + currentBill + " to your card " + creditCard);
 			System.out.println("Thank you, " + customerName + "! Please visit us again in the future.");
 		} else {
 			System.out.println("Would you like to keep browsing?");
 			userDecision = customerDecision();
 			if (userDecision.equals("Yes")) {
-				// send back to browsing function
+				System.out.println("You can continue to browse for movies. Enjoy!");
 			} else {
-				clearCart();
+				cart.clearCart();
 				System.out.println(
 						"Your cart is clear. You are about to leave the store. Are you sure you want to leave?");
 				userDecision = customerDecision();
@@ -59,11 +56,11 @@ public class Checkout {
 					System.out.println("Thank you for visiting us. We hope to see you again. Goodbye.");
 				} else {
 					System.out.println("You can continue to browse for movies. Enjoy!");
-					// send back to browsing function
 				}
 			}
 		}
 		userInput.close();
+		return cart;
 	}
 
 	/**
@@ -71,8 +68,8 @@ public class Checkout {
 	 * 
 	 * @return
 	 */
-	public double calculateBill() {
-		for (String[] strings : cart) {
+	public double calculateBill(Cart shoppingCart) {
+		for (String[] strings : shoppingCart.getCart()) {
 			try {
 				bill += Double.parseDouble(strings[4]); // price is the 5th element in a Movie object as an array
 			} catch (NumberFormatException nfe) {
@@ -83,10 +80,30 @@ public class Checkout {
 	}
 
 	/**
-	 * Clear shopping cart
+	 * Ask for customer credit card information. The method checks if the input is a
+	 * 16-digit number, and prompts for credit card information again if user input
+	 * is invalid.
+	 * 
+	 * @return
 	 */
-	public void clearCart() {
-		cart.removeAll(cart);
+	public String getCreditCard() {
+		String creditCard = "";
+		Scanner creditCardScanner = new Scanner(System.in);
+		boolean cardError = true;
+		while (cardError) {
+			System.out.println("Please enter your credit card number:");
+			creditCard = creditCardScanner.nextLine();
+			if (creditCard.length() == 16) {
+				try {
+					Integer.parseInt(creditCard);
+					cardError = false;
+				} catch (NumberFormatException nfe) {
+					System.out.println("Invalid credit card. Please enter a 16-digit number.");
+				}
+			}
+		}
+		creditCardScanner.close();
+		return creditCard;
 	}
 
 	/**
