@@ -8,6 +8,10 @@ public class Cart {
 	
 	private ArrayList<String[]> cart = new ArrayList<>();
 	
+	public ArrayList<String[]> getCart() {
+		return cart;
+	}
+
 	/**
 	 * Return number of movies in the cart.
 	 * @return integer number of movies in the cart
