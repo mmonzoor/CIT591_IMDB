@@ -34,9 +34,9 @@ public class Checkout {
 			System.out.println("Please tell us your name:");
 			customerName = userInput.nextLine();
 			double currentBill = calculateBill(cart);
-			System.out.println(customerName + ", your total bill amount is " + currentBill);
+			System.out.println(customerName + ", your total bill amount is " + String.format("%.2f", currentBill));
 			cart.clearCart();
-			System.out.println("Your order is complete. You have been charged " + currentBill);
+			System.out.println("Your order is complete. You have been charged " + String.format("%.2f", currentBill));
 			System.out.println("Thank you, " + customerName + "! Please visit us again in the future.");
 		} else {
 			System.out.println("Would you like to keep browsing?");
