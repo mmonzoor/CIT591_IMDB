@@ -10,7 +10,6 @@ public class Checkout {
 
 	String customerName;
 	double bill;
-	String creditCard;
 
 	/**
 	 * Constructor for a Checkout object; initialize variables
@@ -19,7 +18,6 @@ public class Checkout {
 	Checkout() {
 		customerName = "";
 		bill = 0.0;
-		creditCard = "";
 	}
 
 	/**
@@ -37,10 +35,8 @@ public class Checkout {
 			customerName = userInput.nextLine();
 			double currentBill = calculateBill(cart);
 			System.out.println(customerName + ", your total bill amount is " + currentBill);
-			creditCard = getCreditCard();
 			cart.clearCart();
-			System.out.println(
-					"Your order is complete. You have been charged " + currentBill + " to your card " + creditCard);
+			System.out.println("Your order is complete. You have been charged " + currentBill);
 			System.out.println("Thank you, " + customerName + "! Please visit us again in the future.");
 		} else {
 			System.out.println("Would you like to keep browsing?");
@@ -59,7 +55,6 @@ public class Checkout {
 				}
 			}
 		}
-		userInput.close();
 		return cart;
 	}
 
@@ -77,33 +72,6 @@ public class Checkout {
 			}
 		}
 		return bill;
-	}
-
-	/**
-	 * Ask for customer credit card information. The method checks if the input is a
-	 * 16-digit number, and prompts for credit card information again if user input
-	 * is invalid.
-	 * 
-	 * @return
-	 */
-	public String getCreditCard() {
-		String creditCard = "";
-		Scanner creditCardScanner = new Scanner(System.in);
-		boolean cardError = true;
-		while (cardError) {
-			System.out.println("Please enter your credit card number:");
-			creditCard = creditCardScanner.nextLine();
-			if (creditCard.length() == 16) {
-				try {
-					Integer.parseInt(creditCard);
-					cardError = false;
-				} catch (NumberFormatException nfe) {
-					System.out.println("Invalid credit card. Please enter a 16-digit number.");
-				}
-			}
-		}
-		creditCardScanner.close();
-		return creditCard;
 	}
 
 	/**
@@ -132,7 +100,6 @@ public class Checkout {
 			}
 		}
 
-		userDecisionScan.close();
 		return decision;
 	}
 
