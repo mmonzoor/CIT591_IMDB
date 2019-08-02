@@ -64,4 +64,8 @@ public class Cart {
 		return false; 
 	}
 	
+	public void clearCart() {
+		cart.clear();
+	}
+	
 }

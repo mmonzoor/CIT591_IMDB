@@ -179,7 +179,8 @@ public class InitialBrowsing {
 
 				if (userInput.toLowerCase().equals("c")) {
 					loop = false;
-					//Checkout checkout = new Checkout(userCart);
+					Checkout checkout = new Checkout();
+					checkout.runCheckoutProcess(userCart);
 				}
 				else if (userInput.toLowerCase().equals("r")) {
 					return;
