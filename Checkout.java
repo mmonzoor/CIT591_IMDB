@@ -38,6 +38,7 @@ public class Checkout {
 			cart.clearCart();
 			System.out.println("Your order is complete. You have been charged " + String.format("%.2f", currentBill));
 			System.out.println("Thank you, " + customerName + "! Please visit us again in the future.");
+			System.exit(0);
 		} else {
 			System.out.println("Would you like to keep browsing?");
 			userDecision = customerDecision();
@@ -50,6 +51,7 @@ public class Checkout {
 				userDecision = customerDecision();
 				if (userDecision.equals("Yes")) {
 					System.out.println("Thank you for visiting us. We hope to see you again. Goodbye.");
+					System.exit(0);
 				} else {
 					System.out.println("You can continue to browse for movies. Enjoy!");
 				}
