@@ -61,23 +61,26 @@ public class Display {
 	 * Display items in cart
 	 * @param cart 
 	 */
-	public void cart(ArrayList<String[]> cart) {
-		 
+	public void cart(Cart cart) {
+		
 		horizontalBar();
 		if (cart.isEmpty()) {
 			System.out.printf("%45s", "Your cart is empty\n");
 		} else {
 			System.out.printf("%3s %-45s %-10s %-10s\n", "No.", "Title", "Year", "Price");
 			
-			for (int i = 0; i < cart.size(); i++) {
+			for (int i = 0; i < cart.getCartSize(); i++) {
 				System.out.printf("%-3s %-45s %-10s %-10s\n", i + 1, cart.get(i)[1], cart.get(i)[2], cart.get(i)[4]);			
 			}
 		}
+		// display total price 
+		Checkout checkout = new Checkout();
+		System.out.printf("%60s %.2f\n", "Your total is ", checkout.calculateBill(cart));
 		horizontalBar();
 	}
 	
 	/**
-	 * Message to be displayed shen search returns no result 
+	 * Message to be displayed seen search returns no result 
 	 */
 	public void noSearchResult() {
 		horizontalBar();

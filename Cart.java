@@ -8,8 +8,21 @@ public class Cart {
 	
 	private ArrayList<String[]> cart = new ArrayList<>();
 	
+	/**
+	 * Getter 
+	 * @return cart ArrayList<String[]> 
+	 */
 	public ArrayList<String[]> getCart() {
 		return cart;
+	}
+	
+	/**
+	 * Get specific index at cart, return String[] at the index
+	 * @param i integer index 
+	 * @return String[]
+	 */
+	public String[] get(int i) {
+		return cart.get(i);
 	}
 
 	/**
@@ -37,14 +50,6 @@ public class Cart {
 	}
 	
 	/**
-	 * Display content in the cart. 
-	 */
-	public void displayCart() {
-		Display display = new Display();
-		display.cart(cart);
-	}
-	
-	/**
 	 * Check if selected item is already in cart and return boolean. 
 	 * @param userChoiceMovie String array of movie info
 	 * @return boolean whether the item is already in cart or not 
@@ -54,9 +59,9 @@ public class Cart {
 		if (cart.isEmpty()){
 			return false;
 		}
-		 
+		// compare IMDB id (index 3) to see if movie already in cart 
 		for (String[] movieInCart : cart) {
-			if (movieInCart[3].equals(userChoiceMovie[3])) { // compare IMDB id 
+			if (movieInCart[3].equals(userChoiceMovie[3])) {
 				return true; 
 			}
 					
@@ -64,8 +69,17 @@ public class Cart {
 		return false; 
 	}
 	
+	/**
+	 * Remove all element in cart 
+	 */
 	public void clearCart() {
 		cart.removeAll(cart);
 	}
 	
+	/**
+	 * Check if the cart is empty 
+	 */
+	public boolean isEmpty() {
+		return cart.isEmpty();
+	}
 }

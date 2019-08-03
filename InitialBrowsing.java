@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * This is the front-end where the user  makes searches, view cart. 
+ * This is the front-end where the user makes searches, view cart. 
  * @author Nami Kim
  */
 public class InitialBrowsing {
@@ -25,23 +25,24 @@ public class InitialBrowsing {
 
 		while(loop) {
 			searchResult.clear();
-			System.out.print("Enter title of the movie to be searched (r to return to prior menu:main) >>> ");
+			System.out.print("Enter title of the movie to be searched (r to return to previous menu:main) >>> ");
 			Scanner in = new Scanner(System.in);
 			SearchMovies keyWord;
 
 			String userInput = in.nextLine();
 			if (userInput.toLowerCase().equals("r")) {
-				return;
+				return; // return to previous menu if user enters r 
 			} else {
-				// Search URL construction
+				// user input makes Search URL 
 				keyWord = new SearchMovies(userInput);
 				fileName = userInput.replaceAll(" ", "")+".csv";
 			}
-
-			System.out.print("Enter year of release or press enter to search without a year (r to return to prior menu:main) >>> ");
+		
+			System.out.print("Enter year of release or press enter to search without a year (r to return to previous menu:main) >>> ");
 			userInput = in.nextLine();
+			
 			if (userInput.toLowerCase().equals("r")) {
-				return;
+				return; // return to previous menu if user enters r 
 			} else {
 
 				try{
@@ -67,7 +68,6 @@ public class InitialBrowsing {
 				display.searchResult(searchResult);
 				addToCart();
 			}
-
 		}
 	}
 
@@ -116,7 +116,7 @@ public class InitialBrowsing {
 		boolean loop = true;
 
 		while(loop) {
-			System.out.print("Enter number of the movie you want to add to cart, c to view your cart, r to return to prior menu:search >>> ");
+			System.out.print("Enter number of the movie you want to add to cart, c to view your cart, r to return to previous menu:search >>> ");
 
 			String input = in.nextLine();
 
@@ -131,7 +131,7 @@ public class InitialBrowsing {
 				try {
 					addToCartNumber = Integer.parseInt(input);
 
-					if (addToCartNumber < 1 || addToCartNumber > searchResult.size()) {
+					if (addToCartNumber < 1 || addToCartNumber >= searchResult.size()) {
 						System.out.println("Invalid input");
 					} 
 					else {
@@ -161,12 +161,12 @@ public class InitialBrowsing {
 
 		boolean loop = true;
 		while(loop) {
-			userCart.displayCart();
-			System.out.print("Enter c to checkout, number of title to remove item from cart, r to return to prior menu >>> ");
+			display.cart(userCart);
+			System.out.print("Enter c to checkout, number of title to remove item from cart, r to return to previous menu >>> ");
 			Scanner in = new Scanner(System.in);
 			String userInput = in.nextLine();
 
-			try {
+			try { // if user enters a number, remove the item number from cart 
 				int removeFromCartNumber = Integer.parseInt(userInput);
 
 				if (removeFromCartNumber < 1 || removeFromCartNumber > userCart.getCartSize()) {
@@ -243,10 +243,5 @@ public class InitialBrowsing {
 			}
 		}
 		display.exit();
-	}
-
-	public static void main(String[] args) {
-		InitialBrowsing test = new InitialBrowsing();
-		test.run();
 	}
 }
