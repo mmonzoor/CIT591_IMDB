@@ -1,5 +1,6 @@
 *.json
 *.csv
+!test.csv
 .vscode/
 *.class 
 bin/

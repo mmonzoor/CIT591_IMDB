@@ -3,6 +3,8 @@
 ###### Authors: JD, NK, MM
  
 ## Usage
+
+Please note, this application needs to connect to an API and requires internet connection. Cannot run this project offline.
  
 Run the following class after compiling to be prompted as a user to navigate the store:
  
