@@ -16,3 +16,5 @@ Nami also contributed to creating the Cart.java class which allows users to add 
 
 Contributor: Jiayi Deng
 We have allowed the user to browse and add items to their cart but now the final stage of their journey in our store is to checkout the movies they want. Once the user reaches the checkout screen, the program provides interactive choices for the user to check out, or to go back to browsing for more movies. Users will be given two chances to go back to browsing before completely leaving the store. Initially, the user is asked if they are sure they want to checkout their cart. If the answer is yes, then the total price is calculated, the user is provided the bill, and the program ends. If the user chooses to change their mind and continue browsing, the option is also provided. The Checkout class is called from InitialBrowsing class and ensures that the program terminates once the user is done.
+
+Link to Github: https://github.com/cit-591/final-project-summer-2019-movie-rental-jd-nk-and-mm 
