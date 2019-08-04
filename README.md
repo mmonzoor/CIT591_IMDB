@@ -13,6 +13,12 @@ Run the following class after compiling to be prompted as a user to navigate the
 This should prompt you with a title to search. You can put a name of a movie, e.g. batman, captain america, etc. Once a title is accepted, you will be prompted for a year. If you put a valid date, it will be used to search. If you put nothing or random strings, your year value will be ignored since it is an optional search field. See example usage run through below:
  
 ![](functionality.gif)
+
+1. Prompted to search by a movie **title**
+2. Once title has been passed, option to search by **year** is passed
+3. List of movies are provided. Use index number of movies to input into **cart**.
+4. Option to view items in the Cart, **add**, or **remove** items are provided.
+5. Checkout option by providing user the **total price** or the ability to go back to browsing. 
  
 The Cart functionality allows for seamless movements of units in and out for the user. The usage example shows the ability to add items to the cart based on number on the list. However, when you are viewing your cart, you can also drop items that you no longer want to checkout from the store with.
  
