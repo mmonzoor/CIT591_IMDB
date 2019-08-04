@@ -2,8 +2,7 @@ import java.net.*;
 import java.io.*;
 
 public class MovieApiConnection {
-    // base url - 
-    // api key - 9d1bb888
+
     String SearchURL;
     MovieApiConnection(String SearchURL){
         this.SearchURL = SearchURL;
