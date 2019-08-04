@@ -23,16 +23,19 @@ Our objective for this project is to create a virtual movie rental store that al
 This project has been created with the user as a key priority. When the user enters our store, they will need to search a catalogue of available movies to first see what is available to rent. We will be starting out by creating this catalogue database by fetching related data from a public API such as the [OMDb API](https://www.omdbapi.com/). Using this RESTful API, we will be making GET requests. The API requires the registration of the user to a free account in order to generate an API key for authentication. Once the data is fetched, we will convert the elements of the data to our desired .csv format and keep the needed items. The search is generated based on user inputs which is a component discussed extensively below.
  
 ### Design
+
+#### Summary of Project Design
  
+![Initial Design Flow](submission.png)
+
+#### Design Breakdown 
+
 The design starts with the user interacting with our browser class ```InitialBrowsing.java```. This is the main class handling user inputs, offering options, and providing lists of movies available for renting. The user searches taken in by this class as inputs are then sent to the ```DataParser.java``` class where it gets converted to url format. A search url is constructed using the ```SearchMovies.java``` class. Finally, a connection is established with the main API, using our registered API key which is already embedded in the search URL with the ```MovieAPIConnection.java``` class. The results are saved in a csv that are returned by the API.
  
 ```InitialBrowsing``` class is now able to parse the saved csv and return to the user a series of choices to rent with the price included. The user can continue browsing, add elements to their cart, and decide to checkout from the store at this point. Once there are items in the cart, the user can input checkout choice which invokes the ```Checkout.java``` class. The ```Checkout.java``` class totals the bill and gives the user the option to go back to browsing or finish purchasing. After the purchase has been made, the application closes. The decision tree below explains the design flow of the Checkout class:
 
 ![Checkout Design Flow](CheckoutDT.png)
 
-###### Summary of Project Design
- 
-![Initial Design Flow](submission.png)
  
 ### Summary of Features
  
