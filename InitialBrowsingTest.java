@@ -1,5 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
-
+import java.nio.file.Path;
 import java.io.ByteArrayInputStream;
 
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,8 @@ class InitialBrowsingTest {
 
 	@Test
 	void testParseSearchResult() {
-		testBrowsing.setFileName("test.csv");
+		Path p = Path.get("/test.csv").normalize().toString();
+		testBrowsing.setFileName(p);
 		testBrowsing.parseSearchResult();
 		assertEquals("batman v superman: dawn of justice", testBrowsing.getSearchResult().get(1)[1]);
 		assertEquals("tt2975590", testBrowsing.getSearchResult().get(1)[3]);
