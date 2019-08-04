@@ -1,0 +1,20 @@
+Name: Virtual Movie Rental Store
+Creators: JIAYI DENG, NAMI KIM, MUMTAHIN MONZOOR
+
+Project Description: This project was focused on creating a virtual movie rental store with the user's interaction flow in mind. In the era of e-commerce marketing, the user interaction flow in an e-commerce site can greatly affect the success of a product. We wanted to create a simple application that allows users to search for movies, get a set of results based on their searches, and pick movies to checkout from the store. Although the application itself may appear simple, we added some key features like fetching true movie data from an API and providing the user back with real data based on their searches. Functionalities such as shopping cart elements and checkout processes that are commonly observed in e-commerce stores have also been encapsulated in this project. 
+
+Role Breakdown:
+
+Contributor: Mumtahin Monzoor
+Data Fetching, Cleaning, and Processing: The handling of data starting from the initial stages of receiving a movie title to returning a structured dataset of returned values based on the searches were done at this step. Created class SearchMovies.java class to construct valid URL formatted according to the specifications outlined in the OMDB api doc. 
+The MovieApiConnection.java interacted with this class to take the constructed URL and added search parameters such as titles and year received from the user. The final URL was then used to fetch data from the RESTApi using a GET request in this class. Elements such as status code checks on the API connection is done here. The DataParser.java class was used to then parse the JSON response received. The built-in library was used to process this raw json clob instead of using a Java library with intended support for json. The DataParser.java class interacts with FileHandler.java and outputs the search results into a csv. 
+
+Contributor: Nami Kim
+Handling Inputs and Managing Carts: A core component of this project is to ensure that the user can navigate the store with ease. Nami was the contributor for InitialBrowsing.java class that started the user’s interaction with the store. It is the class that prompts the user for questions on which movies to search, corresponding year (optional), returning to a different menu, viewing what’s in their cart, and checking out their items. All of these steps create an extensive set of edge cases that need to be handled and proper parsing of user inputs need to follow post-validation. InitialBrowsing class invokes the DataParser which then invokes the subsequent classes to connect to the API. The file that is saved (containing search results) gets opened and read by InitialBrowsing and user gets back a set of choices. This feedback loop created in InitialBrowsing is the core feature of the product built. 
+
+Nami also contributed to creating the Cart.java class which allows users to add items and also remove items from their cart. Once there are items in the Cart, IntialBrowsing can interact with Checkout.java to process the users payment. 
+
+Contributor: Jiayi Deng
+We have allowed the user to browse and add items to their cart but now the final stage of their journey in our store is to checkout the movies they want. Once the user reaches the checkout screen, the program provides interactive choices for the user to check out, or to go back to browsing for more movies. Users will be given two chances to go back to browsing before completely leaving the store. Initially, the user is asked if they are sure they want to checkout their cart. If the answer is yes, then the total price is calculated, the user is provided the bill, and the program ends. If the user chooses to change their mind and continue browsing, the option is also provided. The Checkout class is called from InitialBrowsing class and ensures that the program terminates once the user is done.
+
+Link to Github: https://github.com/cit-591/final-project-summer-2019-movie-rental-jd-nk-and-mm 
