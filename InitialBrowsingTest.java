@@ -9,23 +9,6 @@ class InitialBrowsingTest {
 	InitialBrowsing testBrowsing = new InitialBrowsing();
 
 	@Test
-	void testParseSearchResult() {
-		Path p = Path.get("/test.csv").normalize().toString();
-		testBrowsing.setFileName(p);
-		testBrowsing.parseSearchResult();
-		assertEquals("batman v superman: dawn of justice", testBrowsing.getSearchResult().get(1)[1]);
-		assertEquals("tt2975590", testBrowsing.getSearchResult().get(1)[3]);
-		assertEquals("14.74", testBrowsing.getSearchResult().get(2)[4]);
-	}
-
-	@Test
-	void testParseLongTitle() {
-		testBrowsing.setFileName("test.csv");
-		testBrowsing.parseSearchResult();
-		assertEquals(45, testBrowsing.getSearchResult().get(2)[1].length());
-	}
-	
-	@Test
 	void testAddToCart() {
 		// replace user input with "r"
 		ByteArrayInputStream in = new ByteArrayInputStream("r".getBytes());
