@@ -17,7 +17,6 @@ public class Checkout {
 	 */
 	Checkout() {
 		customerName = "";
-		bill = 0.0;
 	}
 
 	/**
@@ -66,6 +65,7 @@ public class Checkout {
 	 * @return
 	 */
 	public double calculateBill(Cart shoppingCart) {
+		bill = 0.0;
 		for (String[] strings : shoppingCart.getCart()) {
 			try {
 				bill += Double.parseDouble(strings[4]); // price is the 5th element in a Movie object as an array
