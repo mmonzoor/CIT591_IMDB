@@ -87,7 +87,7 @@ public class InitialBrowsing {
 
 				// remove double quotation mark 
 				// + take only first 45 letters of movie title 
-				if (line[1].length() > 45) {
+				if (line[1].length() > 47) {
 					lineWithOutQuotationMark[1] = line[1].substring(1, line[1].length() - 1).substring(0, 45);
 				} else {
 					lineWithOutQuotationMark[1] = line[1].substring(1, line[1].length() - 1);
