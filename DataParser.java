@@ -79,7 +79,6 @@ public class DataParser {
 
         // process the innnerclob of nested json containing the actual search results
         String innerClob = new String();
-        System.out.println("response"+ responseClob);
         // check stats on responseClob by looking at the value in the outer
         if (checkResponse()) {
             innerClob = responseClob.split("\\],")[0];
