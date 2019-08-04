@@ -6,7 +6,7 @@ class SearchMoviesTest {
 	void testConstructSearch() {
 		SearchMovies testMovie = new SearchMovies("the avengers");
 		String testURL = testMovie.constructSearch();
-		assert(testURL.contains("&t=the+avengers"));
+		assert(testURL.contains("&s=the+avengers"));
 	}
 
 }

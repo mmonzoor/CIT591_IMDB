@@ -46,15 +46,16 @@ public class DataParser {
         // loop through parsed objects and only keep title, year, genre, and director
         // TO DO CHECK THE RESPONSE: TRUE
         for (int i = 0; i < tempClob.length; i++) {
-            if (tempClob[i].contains("Title")) {
+            if (tempClob[i].contains("\"Title\":")) {
                 String title = tempClob[i].split("\"Title\":")[1];
                 singularReponse.add(title);
             }
-            if (tempClob[i].contains("Year")) {
+            if (tempClob[i].contains("\"Year\":")) {
+                //System.out.println(tempClob[i]);
                 String year = tempClob[i].split("\"Year\":")[1];
                 singularReponse.add(year);
             }
-            if (tempClob[i].contains("imdbID")) {
+            if (tempClob[i].contains("\"imdbID\":")) {
                 String imdbid = tempClob[i].split("\"imdbID\":")[1];
                 singularReponse.add(imdbid);
             }
@@ -78,7 +79,7 @@ public class DataParser {
 
         // process the innnerclob of nested json containing the actual search results
         String innerClob = new String();
-
+        System.out.println("response"+ responseClob);
         // check stats on responseClob by looking at the value in the outer
         if (checkResponse()) {
             innerClob = responseClob.split("\\],")[0];
