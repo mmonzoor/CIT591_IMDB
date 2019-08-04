@@ -9,11 +9,49 @@ import java.util.Scanner;
  */
 public class InitialBrowsing {
 
-	private String fileName = "";
-	private ArrayList<String[]> searchResult = new ArrayList<>();
-	private Cart userCart = new Cart();
-	private Display display = new Display();
+	private String fileName;
+	private ArrayList<String[]> searchResult;
+	private Cart userCart;
+	private Display display;
+	
+	/**
+	 * Getters and setters
+	 * @return
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
+	public ArrayList<String[]> getSearchResult() {
+		return searchResult;
+	}
+
+	public void setSearchResult(ArrayList<String[]> searchResult) {
+		this.searchResult = searchResult;
+	}
+
+	public Cart getUserCart() {
+		return userCart;
+	}
+
+	public void setUserCart(Cart userCart) {
+		this.userCart = userCart;
+	}
+
+	/** 
+	 * Constructor 
+	 */
+	public InitialBrowsing() {
+		this.fileName = "";
+		this.searchResult = new ArrayList<>();
+		this.userCart = new Cart();
+		this.display = new Display();
+	}
+	
 	/**
 	 * Prompt user to enter name/year of movie and perform a search.
 	 * Calls ParseSearchResult to process the search result, calls display function to 

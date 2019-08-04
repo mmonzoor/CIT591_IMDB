@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * Shopping cart that holds movies user chooses from search results. 
  * @author Nami Kim
@@ -82,4 +84,5 @@ public class Cart {
 	public boolean isEmpty() {
 		return cart.isEmpty();
 	}
+	
 }
